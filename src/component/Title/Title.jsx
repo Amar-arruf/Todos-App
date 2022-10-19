@@ -3,8 +3,9 @@ import { initialState, reducer } from "../../reducer/reducer";
 
 const Title = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log("re render");
   const handleToggle = () => {
-    dispatch({ type: "click" });
+    dispatch({ type: "CLICK" });
     document.body.classList.toggle("dark");
   };
 
@@ -33,7 +34,7 @@ const Title = () => {
   }
 
   return (
-    <div className="p-2 flex justify-between items-center">
+    <div className="p-2 flex justify-between items-center mb-8">
       <h2 className="uppercase text-white font-bold laptop:text-title mobile:text-2xl tracking-widest">
         Todo
       </h2>

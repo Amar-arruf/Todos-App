@@ -16,8 +16,9 @@ module.exports = {
     extend: {
       colors: {
         mainBackground: "hsl(235, 21%, 11%)",
-        secondBackground: "hsl(0, 0%, 98%)",
-        wrapperBackground: "hsl(235, 24%, 19%)",
+        secondBackground: "hsl(236, 33%, 92%",
+        wrapperBackground: "hsl(237, 14%, 26%)",
+        "wrapper-background": "hsl(0, 0%, 98%)",
       },
       width: {
         600: "600px",
