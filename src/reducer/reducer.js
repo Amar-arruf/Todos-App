@@ -22,6 +22,11 @@ export const reducer = (state = initialState, action) => {
         todos: [...state.todos, action.itemData],
         value: "",
       };
+    case "REMOVE_ITEM":
+      return {
+        ...state,
+        todos: action.itemData,
+      };
     default:
       return state;
   }

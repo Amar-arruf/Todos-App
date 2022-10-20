@@ -3,7 +3,7 @@ import "./todowrapper.css";
 
 function todoWrapper(props) {
   return (
-    <div className="w-full laptop:mt-10 mobile:mt-5 bg-wrapper-background dark:bg-wrapperBackground  rounded h-[400px] overflow-y-scroll">
+    <div className="w-full relative laptop:mt-10 mobile:mt-5 bg-wrapper-background dark:bg-wrapperBackground  rounded h-[400px] overflow-y-scroll">
       {props.children}
     </div>
   );

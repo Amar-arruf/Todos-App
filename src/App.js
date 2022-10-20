@@ -1,5 +1,6 @@
-import { useReducer } from "react";
+import { useCallback, useReducer } from "react";
 import Container from "./component/Container/Container";
+import Filter from "./component/Filter/Filter";
 import Input from "./component/input/Input";
 import ItemTodos from "./component/ItemTodos/itemTodos";
 import Title from "./component/Title/Title";
@@ -8,16 +9,28 @@ import { initialState, reducer } from "./reducer/reducer";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const handleInput = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch({ type: "HIT_ENTER", itemData: state.value });
+    },
+    [state]
+  );
 
-  const handleInput = (e) => {
-    e.preventDefault();
-    dispatch({ type: "HIT_ENTER", itemData: state.value });
-  };
-
-  const handleChange = (e) => {
+  const handleChange = useCallback((e) => {
     const value = e.target.value;
     dispatch({ type: "ONKEYPRESS", payload: value });
-  };
+  }, []);
+
+  const handleRemoveItem = useCallback(
+    (myKey) => {
+      const todos = state.todos.filter((item) => {
+        return state.todos.indexOf(item) !== myKey;
+      });
+      dispatch({ type: "REMOVE_ITEM", itemData: todos });
+    },
+    [state]
+  );
 
   return (
     <div className="bg-secondBackground dark:bg-mainBackground text-regular font-josefin">
@@ -32,9 +45,15 @@ function App() {
           <TodoWrapper>
             {state.todos.map((item, index) => {
               return (
-                <ItemTodos title={item} myKey={parseInt(index)} key={index} />
+                <ItemTodos
+                  title={item}
+                  myKey={parseInt(index)}
+                  key={index}
+                  onRemove={handleRemoveItem}
+                />
               );
             })}
+            <Filter length={state.todos.length} />
           </TodoWrapper>
         </Container>
       </div>

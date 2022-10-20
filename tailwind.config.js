@@ -19,6 +19,7 @@ module.exports = {
         secondBackground: "hsl(233, 11%, 84%)",
         wrapperBackground: "hsl(237, 14%, 26%)",
         "wrapper-background": "hsl(0, 0%, 98%)",
+        activeChecked: "hsl(220, 98%, 61%)",
       },
       width: {
         600: "600px",
