@@ -1,15 +1,9 @@
-import React, { memo, useCallback, useState } from "react";
+import React, { memo } from "react";
 
 const ItemTodos = (props) => {
-  const [checked, setIsChecked] = useState(false);
-
-  const handleChange = useCallback(() => {
-    setIsChecked((prevState) => !prevState);
-  }, []);
-
   let checkedICon;
 
-  if (checked) {
+  if (props.checked === true) {
     checkedICon = (
       <div className="h-[26px] w-[26px] px-[8px] py-[8px] bg-activeChecked rounded-full">
         <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25">
@@ -17,7 +11,7 @@ const ItemTodos = (props) => {
             fill="none"
             fillRule=""
             stroke="#FFF"
-            strokewidth="evenodd"
+            strokeWidth="evenodd"
             d="M1 4.304L3.696 7l6-6"
           />
         </svg>
@@ -34,12 +28,14 @@ const ItemTodos = (props) => {
     >
       <div
         className="relative h-[30px] w-[30px] mobile: w-[30px]  border-2 dark:border-slate-600 rounded-full"
-        onClick={handleChange}
+        onClick={props.click.bind(this, props.myKey)}
       >
         {checkedICon}
       </div>
       <span className=" justify-contappearance-none pl-5 w-[300px] bg-transparent focus:outline-0 dark:text-white text-black border-none relative mobile: p-1">
-        <div className={checked ? "line-through text-gray-400" : ""}>
+        <div
+          className={props.checked === true ? "line-through text-gray-400" : ""}
+        >
           {props.title}
         </div>
       </span>
