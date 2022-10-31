@@ -17,6 +17,7 @@ export const reducer = (state = initialState, action) => {
         darkMode: state.darkMode === false ? true : false,
       };
     case "FILTER_COMPLETED":
+      console.log("filter completed activate");
       return {
         ...state,
         filter: {
@@ -25,25 +26,36 @@ export const reducer = (state = initialState, action) => {
           all: false,
         },
       };
+    case "CLEAR_ALL_COMPLETED":
+      return {
+        ...state,
+        todos: action.dataUpdated,
+      };
     case "FILTER_ACTIVE":
+      console.log("filter active activate");
       return {
         ...state,
-        completed: false,
-        active: true,
-        all: false
-      }
-    case "FILTER_ALL" :
+        filter: {
+          completed: false,
+          active: true,
+          all: false,
+        },
+      };
+    case "FILTER_ALL":
+      console.log("filter all activate");
       return {
         ...state,
-        completed : false,
-        active: false,
-        all: true
-      } 
+        filter: {
+          completed: false,
+          active: false,
+          all: true,
+        },
+      };
     case "CHECKED_COMPLETED":
       return {
         ...state,
-        todos: action.updateData
-      }
+        todos: action.updateData,
+      };
     case "ONKEYPRESS":
       return {
         ...state,

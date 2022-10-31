@@ -27,12 +27,12 @@ const ItemTodos = (props) => {
       className="border-b-2 dark:border-slate-600 border-gray-200 py-3 laptop:px-5 mobile:px-3 dark:bg-wrapperBackground bg-wrapper-background flex justify-between"
     >
       <div
-        className="relative h-[30px] w-[30px] mobile: w-[30px]  border-2 dark:border-slate-600 rounded-full"
+        className="relative h-[30px] w-[30px] mobile: w-[30px]  border-2 dark:border-slate-600 rounded-full cursor-pointer"
         onClick={props.click.bind(this, props.myKey)}
       >
         {checkedICon}
       </div>
-      <span className=" justify-contappearance-none pl-5 w-[300px] bg-transparent focus:outline-0 dark:text-white text-black border-none relative mobile: p-1">
+      <span className=" justify-contappearance-none pl-5 w-[300px] bg-transparent focus:outline-0 dark:text-white text-black border-none relative mobile: p-1 cursor-pointer">
         <div
           className={props.checked === true ? "line-through text-gray-400" : ""}
         >

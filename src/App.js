@@ -2,14 +2,16 @@ import { useCallback, useReducer } from "react";
 import Container from "./component/Container/Container";
 import Filter from "./component/Filter/Filter";
 import Input from "./component/input/Input";
-import ItemTodos from "./component/ItemTodos/itemTodos";
 import Title from "./component/Title/Title";
+import Todoslist from "./component/TodosList/todosList";
 import TodoWrapper from "./component/todoWrapper/todoWrapper";
 import { initialState, reducer } from "./reducer/reducer";
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  var todosList;
+
+  let newData;
+
   const handleInput = useCallback(
     (e) => {
       e.preventDefault();
@@ -49,28 +51,44 @@ function App() {
     [state]
   );
 
-  todosList = state.todos.map((item, index) => {
-    return (
-      <ItemTodos
-        title={item.text}
-        myKey={index}
-        key={item.id}
-        onRemove={handleRemoveItem}
-        checked={item.completed}
-        click={handleListCompleted}
-      />
+  const handlerClearCompleted = useCallback(() => {
+    let a = [...state.todos];
+    let b = a.filter((item) => item.completed === true);
+    b.forEach((f) =>
+      a.splice(
+        a.findIndex((e) => e.completed === f.completed),
+        1
+      )
     );
-  });
+    console.log(a);
+    dispatch({ type: "CLEAR_ALL_COMPLETED", dataUpdated: a });
+  }, [state]);
 
   const handlerFilterCompleted = () => {
-    if (state.filter.completed === true) {
-      const completed = state.todos.filter((item) => item.completed === true);
-      console.log(completed);
-      todosList = "";
-    } else {
-      return todosList;
-    }
+    dispatch({ type: "FILTER_COMPLETED" });
   };
+
+  const handlerFilterActive = () => {
+    dispatch({ type: "FILTER_ACTIVE" });
+  };
+
+  const handlerFilterAll = () => {
+    dispatch({ type: "FILTER_ALL" });
+  };
+
+  if (state.filter.completed === true) {
+    newData = state.todos.filter((newVal) => {
+      return newVal.completed === true;
+    });
+  } else if (state.filter.active === true) {
+    newData = state.todos.filter((newVal) => {
+      return newVal.completed === false;
+    });
+  } else {
+    newData = state.todos;
+  }
+
+  let newLength = newData.filter((item) => item.completed === true).length;
 
   return (
     <div className="bg-secondBackground dark:bg-mainBackground text-regular font-josefin">
@@ -83,10 +101,21 @@ function App() {
             onchange={handleChange}
           />
           <TodoWrapper>
-            {todosList}
+            <Todoslist
+              data={newData}
+              handleRemove={handleRemoveItem}
+              handleListCompleted={handleListCompleted}
+            />
             <Filter
-              length={state.todos.length}
+              length={
+                state.filter.completed === true
+                  ? newData.length
+                  : newData.length - newLength
+              }
               onCompleted={handlerFilterCompleted}
+              onActive={handlerFilterActive}
+              onAll={handlerFilterAll}
+              onClearCompleted={handlerClearCompleted}
             />
           </TodoWrapper>
         </Container>
