@@ -6,11 +6,11 @@ import Title from "./component/Title/Title";
 import Todoslist from "./component/TodosList/todosList";
 import TodoWrapper from "./component/todoWrapper/todoWrapper";
 import { initialState, reducer } from "./reducer/reducer";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-
   let newData;
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleInput = useCallback(
     (e) => {
@@ -90,6 +90,16 @@ function App() {
 
   let newLength = newData.filter((item) => item.completed === true).length;
 
+  const handleOnDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const item = [...newData];
+    const [reorderItem] = item.splice(result.source.index, 1);
+    item.splice(result.destination.index, 0, reorderItem);
+
+    newData = item;
+  };
+
   return (
     <div className="bg-secondBackground dark:bg-mainBackground text-regular font-josefin">
       <div className="h-screen laptop:bg-hero-light laptop:dark:bg-hero-dark mobile:dark:bg-hero-mobile-dark mobile:bg-hero-mobile-light bg-no-repeat bg-contain">
@@ -101,11 +111,20 @@ function App() {
             onchange={handleChange}
           />
           <TodoWrapper>
-            <Todoslist
-              data={newData}
-              handleRemove={handleRemoveItem}
-              handleListCompleted={handleListCompleted}
-            />
+            <DragDropContext onDragEnd={handleOnDragEnd}>
+              <Droppable droppableId="item">
+                {(provided) => (
+                  <Todoslist
+                    Droppable={{ ...provided.droppableProps }}
+                    Ref={provided.innerRef}
+                    placeholder={provided.placeholder}
+                    data={newData}
+                    handleRemove={handleRemoveItem}
+                    handleListCompleted={handleListCompleted}
+                  />
+                )}
+              </Droppable>
+            </DragDropContext>
             <Filter
               length={
                 state.filter.completed === true
@@ -119,6 +138,9 @@ function App() {
             />
           </TodoWrapper>
         </Container>
+        <p className="text-gray-400 dark:text-gray-600 text-center">
+          drag and drop reorder list
+        </p>
       </div>
     </div>
   );

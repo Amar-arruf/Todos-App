@@ -24,6 +24,9 @@ const ItemTodos = (props) => {
   return (
     <div
       id={props.myKey}
+      ref={props.Ref}
+      {...props.Draggable}
+      {...props.dragHandler}
       className="border-b-2 dark:border-slate-600 border-gray-200 py-3 laptop:px-5 mobile:px-3 dark:bg-wrapperBackground bg-wrapper-background flex justify-between"
     >
       <div
