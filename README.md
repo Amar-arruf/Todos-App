@@ -1,70 +1,274 @@
-# Getting Started with Create React App
+# Todo - App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![gif  Images](assets/ezgif.com-gif-maker1.gif)
 
-## Available Scripts
+## Table of contents
 
-In the project directory, you can run:
+- [Overview](#overview)
+  - [The challenge](#the-challenge)
+  - [Screenshot](#screenshot)
+  - [Links](#links)
+- [My process](#my-process)
+  - [Built with](#built-with)
+  - [What I learned](#what-i-learned)
+  - [Continued development](#continued-development)
+  - [Useful resources](#useful-resources)
+- [Author](#author)
 
-### `npm start`
+## Overview
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This is a solution to the [Todo app challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/todo-app-Su1_KokOW/hub/todo-app-GtpooKOnmn). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### The challenge
 
-### `npm test`
+Users should be able to:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- View the Optimal layout fot the app depending on their device's screen size
+- See hover states for all interactive elements on the page
+- Add new todos to the list
+- Mark todos from the list
+  Filter by all/active complete todos
+- clear allcompleted todos
+- Toggle light and dark theme
+- **Bonus:** Drag and Drop to reorder items on the list
 
-### `npm run build`
+### Screenshot
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![](./public/design/assets/img/mobile1.png) ![](./public/design/assets/img/mobile6.png) ![](./public/design/assets/img/mobile3.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### Links
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Solution URL: [Gitub](https://github.com/Amar-arruf)
 
-### `npm run eject`
+## My process
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Built with
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- [useReducer, useCallback , Memo](https://reactjs.org/docs/hooks-reference.html) - state hooks
+- [react beautiful DnD](https://github.com/atlassian/react-beautiful-dnd) -
+  third party packages
+- [React](https://reactjs.org/) - JS library
+- [mediaQuery](https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia) - media query in javascript
+- [tailwind CSS](https://tailwindcss.com) - Framework css
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### What I learned
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+in developing the Todo-App I can learn new things including Advance react hooks especially can use useReducer, add tailwind css and configure it , custom components in ReactJs Applications and last but not least it is very important **Drag and Drop to reorder list item todos**.
 
-## Learn More
+To see how you can add code snippets, see below:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```js
+/** @type {import('tailwindcss').Config} */
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+const defaultTheme = require("tailwindcss/defaultTheme");
 
-### Code Splitting
+module.exports = {
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  darkMode: "class",
+  theme: {
+    screens: {
+      mobile: "375px",
+      laptop: "1024px",
+    },
+    letterSpacing: {
+      widest: ".4em",
+    },
+    extend: {
+      colors: {
+        mainBackground: "hsl(235, 21%, 11%)",
+        secondBackground: "hsl(233, 11%, 84%)",
+        wrapperBackground: "hsl(237, 14%, 26%)",
+        "wrapper-background": "hsl(0, 0%, 98%)",
+        activeChecked: "hsl(220, 98%, 61%)",
+      },
+      width: {
+        600: "600px",
+      },
+      backgroundImage: {
+        "hero-dark": "url('../public/bg-desktop-dark.jpg')",
+        "hero-mobile-dark": "url('../public/bg-mobile-dark.jpg')",
+        "hero-light": "url('../public/bg-desktop-light.jpg')",
+        "hero-mobile-light": "url('../public/bg-mobile-light.jpg')",
+      },
+      fontSize: {
+        regular: [
+          "18px",
+          {
+            fontWeight: "400",
+          },
+        ],
+        bold: [
+          "18px",
+          {
+            fontWeight: "700",
+          },
+        ],
+        title: "37px",
+      },
+      fontFamily: {
+        josefin: ['"Josefin Sans"', ...defaultTheme.fontFamily.sans],
+      },
+    },
+  },
+  plugins: [],
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```js
+export const initialState = {
+  darkMode: false,
+  value: "",
+  todos: [],
+  filter: {
+    completed: false,
+    active: false,
+    all: true,
+  },
+};
 
-### Analyzing the Bundle Size
+export const reducer = (state = initialState, action) => {
+  switch (action.type) {
+    case "CLICK":
+      return {
+        ...state,
+        darkMode: state.darkMode === false ? true : false,
+      };
+    case "FILTER_COMPLETED":
+      console.log("filter completed activate");
+      return {
+        ...state,
+        filter: {
+          completed: true,
+          active: false,
+          all: false,
+        },
+      };
+    case "CLEAR_ALL_COMPLETED":
+      return {
+        ...state,
+        todos: action.dataUpdated,
+      };
+    case "FILTER_ACTIVE":
+      console.log("filter active activate");
+      return {
+        ...state,
+        filter: {
+          completed: false,
+          active: true,
+          all: false,
+        },
+      };
+    case "FILTER_ALL":
+      console.log("filter all activate");
+      return {
+        ...state,
+        filter: {
+          completed: false,
+          active: false,
+          all: true,
+        },
+      };
+    case "CHECKED_COMPLETED":
+      return {
+        ...state,
+        todos: action.updateData,
+      };
+    case "ONKEYPRESS":
+      return {
+        ...state,
+        value: action.payload,
+      };
+    case "HIT_ENTER":
+      return {
+        ...state,
+        todos: [...state.todos, action.itemData],
+        value: "",
+      };
+    case "REMOVE_ITEM":
+      return {
+        ...state,
+        todos: action.itemData,
+      };
+    default:
+      return state;
+  }
+};
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```js
+  import { useCallback, useReducer, useEffect, useState } from "react";
+  import Container from "./component/Container/Container";
+  import Filter from "./component/Filter/Filter";
+  import Input from "./component/input/Input";
+  import Title from "./component/Title/Title";
+  import Todoslist from "./component/TodosList/todosList";
+  import TodoWrapper from "./component/todoWrapper/todoWrapper";
+  import { initialState, reducer } from "./reducer/reducer";
+  import { DragDropContext, Droppable } from "react-beautiful-dnd";
+        ....
+```
 
-### Making a Progressive Web App
+```js
+<TodoWrapper>
+  <DragDropContext onDragEnd={handleOnDragEnd}>
+    <Droppable droppableId="item">
+      {(provided) => (
+        <Todoslist
+          Droppable={{ ...provided.droppableProps }}
+          Ref={provided.innerRef}
+          placeholder={provided.placeholder}
+          data={newData}
+          handleRemove={handleRemoveItem}
+          handleListCompleted={handleListCompleted}
+        />
+      )}
+    </Droppable>
+  </DragDropContext>
+  ....
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```js
+import { Draggable } from "react-beautiful-dnd";
+....
 
-### Advanced Configuration
+return (
+    <div ref={Ref} {...Droppable}>
+      {data.map((item, index) => {
+        return (
+          <Draggable key={item.id} draggableId={String(item.id)} index={index}>
+            {(provided) => (
+              <ItemTodos
+                Ref={provided.innerRef}
+                Draggable={{ ...provided.draggableProps }}
+                dragHandler={{ ...provided.dragHandleProps }}
+                title={item.text}
+                myKey={index}
+                key={item.id}
+                onRemove={handleRemove}
+                checked={item.completed}
+                click={handleListCompleted}
+              />
+            )}
+          </Draggable>
+        );
+      })}
+      {placeholder}
+    </div>
+  );
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
 
-### Deployment
+### Continued development
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+**Todos - App** I want to continue focusing on in future projects. These could be concepts still not completely comfortable. maybe in the future I want refine my App and looking beautifull.
 
-### `npm run build` fails to minify
+### Useful resources
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- [Drag and Drop Item](https://www.freecodecamp.org/news/how-to-add-drag-and-drop-in-react-with-react-beautiful-dnd/) - This helped me . I really liked this pattern and will use it going forward.
+- [Filter Item](https://www.youtube.com/watch?v=weFOaIHlDpo) - This is an amazing videos Tutorial on youtube which helped me finally understand. I'd recommend it to anyone still learning this concept.
+
+## Author
+
+- Github - [Amar Ma'ruf](https://github.com/Amar-arruf)
+- Frontend Mentor - [@Amar-arruf](https://www.frontendmentor.io/profile/Amar-arruf)
+- Facebook - [Amar Arruf](https://www.facebook.com/amar.arruf.7/)
