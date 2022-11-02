@@ -1,6 +1,6 @@
 # Todo - App
 
-![gif  Images](assets/ezgif.com-gif-maker1.gif)
+![gif  Images](./public/design/assets/img/todos.gif)
 
 ## Table of contents
 
