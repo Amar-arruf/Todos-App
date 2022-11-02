@@ -117,7 +117,7 @@ function App() {
     mobileContenFilter = null;
   } else {
     mobileContenFilter = (
-      <div className="flex items-center cursor-pointer my-3 p-4 justify-center rounded bg-wrapper-background text-gray-400 dark:text-gray-500 text-sm">
+      <div className="flex items-center cursor-pointer my-3 p-4 justify-center rounded bg-wrapper-background dark:bg-wrapperBackground text-gray-400 dark:text-gray-500 text-sm">
         <p onClick={handlerFilterAll} className={"text-[#3b82f6]"}>
           All
         </p>
@@ -139,7 +139,7 @@ function App() {
 
   return (
     <div className="bg-secondBackground dark:bg-mainBackground text-regular font-josefin">
-      <div className="h-screen laptop:bg-hero-light laptop:dark:bg-hero-dark mobile:dark:bg-hero-mobile-dark mobile:bg-hero-mobile-light bg-no-repeat bg-contain">
+      <div className="h-full laptop:bg-hero-light laptop:dark:bg-hero-dark mobile:dark:bg-hero-mobile-dark mobile:bg-hero-mobile-light bg-no-repeat bg-contain ">
         <Container>
           <Title />
           <Input
@@ -176,10 +176,10 @@ function App() {
           </TodoWrapper>
           {mobileContenFilter}
         </Container>
-        <p className="text-gray-400 dark:text-gray-600 text-center">
-          drag and drop to reorder list
-        </p>
       </div>
+      <p className=" py-5 mt-7 text-gray-400 dark:text-gray-600 text-center bg-secondBackground dark:bg-mainBackground">
+        drag and drop to reorder list
+      </p>
     </div>
   );
 }
