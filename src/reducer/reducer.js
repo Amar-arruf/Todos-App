@@ -51,6 +51,12 @@ export const reducer = (state = initialState, action) => {
           all: true,
         },
       };
+    case "REORDER_LIST":
+      console.log("reorder item success");
+      return {
+        ...state,
+        todos: action.reorderList,
+      };
     case "CHECKED_COMPLETED":
       return {
         ...state,

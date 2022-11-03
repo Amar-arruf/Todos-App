@@ -102,6 +102,7 @@ function App() {
     item.splice(result.destination.index, 0, reorderItem);
 
     newData = item;
+    dispatch({ type: "REORDER_LIST", reorderList: newData });
   };
 
   // mobileFilterContent
